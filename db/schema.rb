@@ -11,11 +11,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150312164005) do
+ActiveRecord::Schema.define(version: 20150316141220) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
+
+  create_table "user_profiles", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "user_id",                            null: false
+    t.text     "about"
+    t.date     "date_of_birth"
+    t.string   "profile_image"
+    t.string   "profile_image_dir"
+    t.integer  "profile_image_approved", default: 0, null: false
+    t.string   "linkedin_profile"
+    t.string   "gender"
+    t.string   "city_id"
+    t.integer  "account_type",           default: 0, null: false
+    t.datetime "premium_upto"
+    t.string   "linkedin_id"
+    t.string   "google_id"
+    t.datetime "last_login_time"
+    t.string   "last_login_ip"
+    t.integer  "subscribed",             default: 1, null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
+  add_index "user_profiles", ["city_id"], name: "index_user_profiles_on_city_id", using: :btree
+  add_index "user_profiles", ["user_id"], name: "index_user_profiles_on_user_id", using: :btree
 
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
